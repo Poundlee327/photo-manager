@@ -14,9 +14,6 @@ import json
 from pathlib import Path
 from typing import Optional
 
-import anthropic
-from openai import OpenAI
-
 from models import AIAnalysis
 
 
@@ -71,6 +68,7 @@ def _to_analysis(parsed: dict) -> AIAnalysis:
 # ── Claude ────────────────────────────────────────────────────────────────────
 
 def _analyze_claude(file_path: str, api_key: str, model: str) -> AIAnalysis:
+    import anthropic
     client = anthropic.Anthropic(api_key=api_key)
     src = _source_path(file_path)
     image_data, media_type = _encode_image(src)
@@ -92,6 +90,7 @@ def _analyze_claude(file_path: str, api_key: str, model: str) -> AIAnalysis:
 # ── OpenAI GPT-4o ─────────────────────────────────────────────────────────────
 
 def _analyze_openai(file_path: str, api_key: str, model: str) -> AIAnalysis:
+    from openai import OpenAI
     client = OpenAI(api_key=api_key)
     src = _source_path(file_path)
     image_data, media_type = _encode_image(src)
@@ -119,6 +118,7 @@ def _analyze_deepseek(file_path: str, api_key: str, model: str, exif_meta: Optio
     Pass exif_meta dict with keys: shot_at, camera_model, lens_model,
     focal_length, aperture, shutter_speed, iso, gps_lat, gps_lon.
     """
+    from openai import OpenAI
     client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
     meta = exif_meta or {}
 
