@@ -1,0 +1,38 @@
+{
+  "name": "photo-manager",
+  "version": "1.0.0",
+  "description": "摄影素材管理桌面应用",
+  "main": "electron/main.js",
+  "scripts": {
+    "electron": "electron .",
+    "dev": "concurrently \"cd frontend && npm run dev\" \"node electron/wait-and-open.js\"",
+    "build": "cd frontend && npm run build",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.photolib.app",
+    "productName": "PhotoLib",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron/**/*",
+      "frontend/dist/**/*"
+    ],
+    "extraResources": [
+      { "from": "backend", "to": "backend" }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  }
+}
