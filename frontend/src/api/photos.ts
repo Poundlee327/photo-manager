@@ -45,6 +45,20 @@ export async function updateSettings(updates: Record<string, string>): Promise<v
   await api.put("/settings", updates);
 }
 
+export async function fetchProviders(): Promise<any> {
+  const { data } = await api.get("/settings/providers");
+  return data;
+}
+
+export async function getBaiduAuthUrl(): Promise<string> {
+  const { data } = await api.get("/auth/baidu/url");
+  return data.url;
+}
+
+export async function exchangeBaiduCode(code: string): Promise<void> {
+  await api.post("/auth/baidu/exchange", { code });
+}
+
 export function thumbnailUrl(id: number): string {
   return `/api/photos/${id}/thumbnail`;
 }

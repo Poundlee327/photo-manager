@@ -20,8 +20,10 @@ export interface Photo {
   ai_description: string | null;
   ai_tags: string | null;
   ai_analyzed_at: string | null;
+  ai_provider: string | null;
   cloud_synced: boolean;
   cloud_url: string | null;
+  cloud_provider: string | null;
   thumbnail_path: string | null;
   imported_at: string;
 }

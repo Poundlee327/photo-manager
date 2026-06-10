@@ -34,21 +34,23 @@ class PhotoDB(Base):
 
     # AI analysis
     ai_theme = Column(String, nullable=True)
-    ai_subjects = Column(Text, nullable=True)   # JSON list
+    ai_subjects = Column(Text, nullable=True)
     ai_description = Column(Text, nullable=True)
-    ai_tags = Column(Text, nullable=True)        # JSON list
+    ai_tags = Column(Text, nullable=True)
     ai_analyzed_at = Column(DateTime, nullable=True)
+    ai_provider = Column(String, nullable=True)   # which model was used
 
     # Cloud
     cloud_synced = Column(Boolean, default=False)
     cloud_url = Column(String, nullable=True)
+    cloud_provider = Column(String, nullable=True)
     cloud_synced_at = Column(DateTime, nullable=True)
 
     imported_at = Column(DateTime, default=datetime.utcnow)
     thumbnail_path = Column(String, nullable=True)
 
 
-# --- Pydantic schemas ---
+# ── Pydantic schemas ──────────────────────────────────────────────────────────
 
 class ExifInfo(BaseModel):
     shot_at: Optional[datetime] = None
@@ -95,8 +97,10 @@ class PhotoOut(BaseModel):
     ai_description: Optional[str]
     ai_tags: Optional[str]
     ai_analyzed_at: Optional[datetime]
+    ai_provider: Optional[str]
     cloud_synced: bool
     cloud_url: Optional[str]
+    cloud_provider: Optional[str]
     thumbnail_path: Optional[str]
     imported_at: datetime
 
@@ -117,10 +121,41 @@ class SyncRequest(BaseModel):
     photo_ids: list[int]
 
 
+class BaiduCodeRequest(BaseModel):
+    code: str
+
+
 class SettingsUpdate(BaseModel):
+    # AI
+    ai_provider: Optional[str] = None
     anthropic_api_key: Optional[str] = None
-    aws_access_key: Optional[str] = None
-    aws_secret_key: Optional[str] = None
-    aws_bucket: Optional[str] = None
-    aws_region: Optional[str] = None
+    anthropic_model: Optional[str] = None
+    openai_api_key: Optional[str] = None
+    openai_model: Optional[str] = None
+    deepseek_api_key: Optional[str] = None
+    deepseek_model: Optional[str] = None
+
+    # Cloud
+    cloud_provider: Optional[str] = None
+    s3_access_key: Optional[str] = None
+    s3_secret_key: Optional[str] = None
+    s3_bucket: Optional[str] = None
+    s3_region: Optional[str] = None
+    oss_access_key_id: Optional[str] = None
+    oss_access_key_secret: Optional[str] = None
+    oss_bucket: Optional[str] = None
+    oss_endpoint: Optional[str] = None
+    cos_secret_id: Optional[str] = None
+    cos_secret_key: Optional[str] = None
+    cos_bucket: Optional[str] = None
+    cos_region: Optional[str] = None
+    qiniu_access_key: Optional[str] = None
+    qiniu_secret_key: Optional[str] = None
+    qiniu_bucket: Optional[str] = None
+    qiniu_domain: Optional[str] = None
+    baidu_app_key: Optional[str] = None
+    baidu_secret_key: Optional[str] = None
+    baidu_save_dir: Optional[str] = None
+
+    # App
     thumbnail_size: Optional[int] = None

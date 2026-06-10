@@ -54,6 +54,9 @@ export function PhotoDetail() {
           {p.ai_description && (
             <div className="bg-white/5 rounded-xl p-3">
               <p className="text-gray-300 text-xs leading-relaxed">{p.ai_description}</p>
+              {p.ai_provider && (
+                <p className="text-gray-600 text-xs mt-1">由 {p.ai_provider} 分析</p>
+              )}
             </div>
           )}
 
